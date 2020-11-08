@@ -6,6 +6,6 @@
 
 AHeatRace2GameMode::AHeatRace2GameMode()
 {
-	DefaultPawnClass = AHeatRace2Pawn::StaticClass();
-	HUDClass = AHeatRace2Hud::StaticClass();
+	//DefaultPawnClass = AHeatRace2Pawn::StaticClass();
+	//HUDClass = AHeatRace2Hud::StaticClass();
 }
