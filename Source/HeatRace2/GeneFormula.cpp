@@ -85,6 +85,9 @@ AGeneFormula::AGeneFormula()
 	// Set the inertia scale. This controls how the mass of the vehicle is distributed.
 	Vehicle4W->InertiaTensorScale = FVector(1.0f, 1.333f, 1.2f);
 
+
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+
 }
 
 // Called when the game starts or when spawned
@@ -99,5 +102,4 @@ void AGeneFormula::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	GetVehicleMovementComponent()->SetThrottleInput(FMath::RandRange(.5f, 1.f));
 }
