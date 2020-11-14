@@ -16,11 +16,19 @@ public:
 	// Sets default values for this actor's properties
 	AGeneticComposer();
 
-	UPROPERTY(Category = CarComponent, VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	AGeneFormula* Formula;
+	virtual void Tick(float DeltaTime) override;
+
+
+	const int PopulationSize = 5;
+	AGeneFormula** Population;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+
+private:
+	void GeneratePopulation();
+	void RemovePopulation();
+	bool AllCartsDisabled();
 };

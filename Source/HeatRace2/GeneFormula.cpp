@@ -87,6 +87,12 @@ AGeneFormula::AGeneFormula()
 
 
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+	isFreezed = false;
+	
+	// Tick Interval
+	SetActorTickInterval(0.2f);
+
+	GetMesh()->OnComponentBeginOverlap.AddDynamic(this, &AGeneFormula::BeginOverlap);
 
 }
 
@@ -95,6 +101,7 @@ void AGeneFormula::BeginPlay()
 {
 	Super::BeginPlay();
 
+	GetVehicleMovementComponent()->SetThrottleInput(.5f);
 }
 
 // Called every frame
@@ -102,4 +109,18 @@ void AGeneFormula::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (!isFreezed)
+	{
+		float steeringInput = FMath::FRandRange(-1.0f, 1.0f);
+		GetVehicleMovementComponent()->SetSteeringInput(steeringInput);
+		Path.Add(steeringInput);
+	}
+}
+
+void AGeneFormula::BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, 
+	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	//AGeneFormula* formula = this; //(AGeneFormula*)OtherActor;
+	this->isFreezed = true;
+	this->GetVehicleMovementComponent()->SetThrottleInput(0.0f);
 }
