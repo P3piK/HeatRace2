@@ -24,7 +24,8 @@ void AGeneticComposer::BeginPlay()
 	// Debug Message
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "debug msg");
 
-	// Logic
+	// Generate first population
+	PrepareOffspring();
 	GeneratePopulation();
 
 
@@ -38,14 +39,18 @@ void AGeneticComposer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	UE_LOG(LogTemp, Log, TEXT("tick"));
+
 	if (AllCartsDisabled())
 	{
 		// Next generation
+		PrepareFitness();
+		PrepareOffspring();
 
-		// save paths
-		// further logic
-		RemovePopulation();
-		GeneratePopulation();
+		// Mutation
+
+		ResetPopulation();
+		GeneratePopulation();	// TODO: Generate offspring carts
 	}
 
 }
@@ -60,15 +65,61 @@ void AGeneticComposer::GeneratePopulation()
 	for (int i = 0; i < PopulationSize; i++)
 	{
 		Population[i] = GetWorld()->SpawnActor<AGeneFormula>(Location, Rotation, SpawnInfo);
+		Population[i]->FollowPath = (*Offsprings)[i]->Path;
 	}
 }
 
-void AGeneticComposer::RemovePopulation()
+void AGeneticComposer::ResetPopulation()
 {
 	for (int i = 0; i < PopulationSize; i++)
 	{
 		Population[i]->Destroy();
 	}
+}
+
+void AGeneticComposer::PrepareFitness()
+{
+
+}
+
+void AGeneticComposer::PrepareOffspring()
+{
+	Offsprings = new TArray<Chromosome*>();
+
+	for (int i = 0; i < PopulationSize; i++)
+	{
+		TArray<Chromosome*>* parents = FindParents();
+		Chromosome* offspring = Crossover(parents);
+
+		Offsprings->Add(offspring);
+	}
+}
+
+TArray<Chromosome*>* AGeneticComposer::FindParents()
+{
+	TArray<Chromosome*>* ret = new TArray<Chromosome*>();
+	float rand1 = FMath::RandRange(0, 1);
+	float rand2 = FMath::RandRange(0, 1);
+	Chromosome* parent1;
+	Chromosome* parent2;
+
+	// TODO:
+	// 
+
+	ret->Add(parent1);
+	ret->Add(parent2);
+
+	return ret;
+}
+
+Chromosome* AGeneticComposer::Crossover(TArray<Chromosome*>* parents)
+{
+	Chromosome* offspring = new Chromosome();
+
+	// TODO:
+	// 
+	
+	return offspring;
 }
 
 bool AGeneticComposer::AllCartsDisabled()

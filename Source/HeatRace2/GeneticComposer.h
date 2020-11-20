@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "GeneFormula.h"
+#include "Chromosome.h"
 #include "GeneticComposer.generated.h"
 
 UCLASS()
@@ -29,6 +30,13 @@ protected:
 
 private:
 	void GeneratePopulation();
-	void RemovePopulation();
+	void ResetPopulation();
+	void PrepareFitness();
+	void PrepareOffspring();
+	TArray<Chromosome*>* FindParents();
+	Chromosome* Crossover(TArray<Chromosome*>* parents);
 	bool AllCartsDisabled();
+
+
+	TArray<Chromosome*>* Offsprings;
 };

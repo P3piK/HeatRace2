@@ -111,7 +111,8 @@ void AGeneFormula::Tick(float DeltaTime)
 
 	if (!isFreezed)
 	{
-		float steeringInput = FMath::FRandRange(-1.0f, 1.0f);
+		float steeringInput = FollowPath.Num() > 0 ? FollowPath.Pop() : FMath::FRandRange(-1.0f, 1.0f);
+
 		GetVehicleMovementComponent()->SetSteeringInput(steeringInput);
 		Path.Add(steeringInput);
 	}
